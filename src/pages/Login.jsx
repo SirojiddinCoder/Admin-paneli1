@@ -22,7 +22,7 @@ useEffect(()=>{
 
     console.log(raqam,parol);
 
-    const handleSubmit =(e)=>{
+    const handleSubmit =(e)=>{    
         e.preventDefault(); 
         fetch('https://autoapi.dezinfeksiyatashkent.uz/api/auth/signin', {
             method: 'POST',
