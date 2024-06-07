@@ -90,15 +90,19 @@ export const Home = () => {
       <Button type="primary" onClick={showModal} className='add-button'>
       Category Add
       </Button>
-      <Modal  title="Category qo'shish" open={isModalOpen} onOk={CategoryCreate} onCancel={handleCancel}>
-      <form>
-
-  <input onChange={(e)=>setNameEn(e?.target?.value)} type="text" placeholder='name en' required/>
-  <input onChange={(e)=>setNameRu(e?.target?.value)} type="text" placeholder='name ru' required/>
-  <input onChange={(e)=>setPicture(e?.target?.files[0])} type="file" accept="image/*" placeholder='name ru' required/>
-  <button onClick={CategoryCreate} type='button'>Qo'shish</button>
-</form> 
-      </Modal>
+      <Modal
+  title="Category qo'shish"
+  visible={isModalOpen}
+  onCancel={handleCancel}
+  footer={null} // Footer ni o'chiramiz
+>
+  <form>
+    <input onChange={(e) => setNameEn(e?.target?.value)} type="text" placeholder='name en' required/>
+    <input onChange={(e) => setNameRu(e?.target?.value)} type="text" placeholder='name ru' required/>
+    <input onChange={(e) => setPicture(e?.target?.files[0])} type="file" accept="image/*" placeholder='name ru' required/>
+    <button onClick={CategoryCreate} className='add-button' type='button'>Qo'shish</button>
+  </form>
+</Modal>
       <br />
       <br />
       <table>
