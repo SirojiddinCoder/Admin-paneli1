@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../pages/Login.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -6,6 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 
 export const Login = () => {
+  //
+  const token =  localStorage.getItem("accessToken")
+useEffect(()=>{
+  if(token){
+    navigate('/home')
+  }
+},[])
    
 
   const navigate = useNavigate();

@@ -9,8 +9,7 @@ import { ToastContainer } from 'react-toastify'
 function App() {
 
 
-  const token =  localStorage.getItem("accessToken")
-  console.log('tt',token);
+
 
   return (
     <>
