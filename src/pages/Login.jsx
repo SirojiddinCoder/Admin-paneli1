@@ -7,12 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   //
-  const token =  localStorage.getItem("accessToken")
-useEffect(()=>{
-  if(token){
-    navigate('/home')
-  }
-},[])
+
    
 
   const navigate = useNavigate();
@@ -53,9 +48,6 @@ useEffect(()=>{
                 console.log(err.message);
              });
     }
-
-
-
 
 
   return (
