@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
-import { Button, Modal, message, Pagination } from 'antd'; // Pagination ni import qilamiz
+import { Button, Modal, message, Pagination } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -37,9 +38,9 @@ export const Home = () => {
   }
 
   const handleEdit = (item) => {
-    setId(item.id)
-    setOpen1(true)
-    setData({ ...data, name_en: item.name_en, name_ru: item.name_ru, images: item.image_src })
+    setId(item.id);
+    setOpen1(true);
+    setData({ name_en: item.name_en, name_ru: item.name_ru, images: item.image_src });
   }
 
   const editCategory = (e) => {
@@ -145,8 +146,6 @@ export const Home = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentItems = category.slice(startIndex, endIndex);
 
-  const totalPages = Math.ceil(category.length / itemsPerPage);
-
   return (
     <div className='container1'>
       <Button type="primary" className='add-button' onClick={handleAddClick}>ADD CATEGORY</Button>
@@ -169,8 +168,8 @@ export const Home = () => {
                 <img src={`${urlImg}${item.image_src}`} alt={item.name_en} />
               </td>
               <td>
-                <Button onClick={() => handleEdit(item)} className='edit-button'>Edit</Button>
-                <Button onClick={() => handleOk(item.id)} className='delete-button'>Delete</Button>
+                <Button onClick={() => handleEdit(item)} className='edit-button' icon={<EditOutlined />} />
+                <Button onClick={() => handleOk(item.id)} className='delete-button' icon={<DeleteOutlined />} />
               </td>
             </tr>
           ))}
@@ -188,16 +187,17 @@ export const Home = () => {
       </div>
 
       <Modal footer={null} title="Delete" open={open} onCancel={handleClose}>
-      <p>Ochirishni xohlaysizmi?</p>
-        <button onClick={handleClose} className='close-button'>Bekor qilish</button>
-        <button onClick={deleteCategory} className='delete-button'>O'chirish</button>
+        <p>Are you sure you want to delete?</p>
+        <Button onClick={handleClose} className='close-button'>Cancel</Button>
+        <Button onClick={deleteCategory} className='delete-button'>Delete</Button>
       </Modal>
+
       <Modal footer={null} title="Add Category" open={open1} onCancel={handleClose}>
         <form onSubmit={addCategory}>
-          <input onChange={(e) => setData({ ...data, name_en: e.target.value })} value={data.name_en} type="text" placeholder='name en' required />
-          <input onChange={(e) => setData({ ...data, name_ru: e.target.value })} value={data.name_ru} type="text" placeholder='name ru' required />
-          <input onChange={(e) => setData({ ...data, images: e.target.files[0] })} type="file" accept="image/*" placeholder='Rasmni tanlang' required />
-          <button className='add-button' type='submit'>Qo'shish</button>
+          <input onChange={(e) => setData({ ...data, name_en: e.target.value })} value={data.name_en} type="text" placeholder='Name En' required />
+          <input onChange={(e) => setData({ ...data, name_ru: e.target.value })} value={data.name_ru} type="text" placeholder='Name Ru' required />
+          <input onChange={(e) => setData({ ...data, images: e.target.files[0] })} type="file" accept="image/*" placeholder='Select Image' required />
+          <button className='add-button' type='submit'>Add</button>
         </form>
       </Modal>
     </div>
