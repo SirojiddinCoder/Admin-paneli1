@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
-import { Button, Modal, message, Pagination } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { toast } from 'react-toastify';
+import { Button, Modal, Pagination } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const Home = () => {
@@ -24,7 +24,7 @@ export const Home = () => {
         setCategory(data.data);
       })
       .catch(error => {
-        toast.error("Xatolik yuz berdi: " + error.message);
+        toast.error("Error: " + error.message);
       });
   };
 
@@ -62,14 +62,14 @@ export const Home = () => {
         if (res.success) {
           handleClose();
           getCategory();
-          message.success("Muvafaqiyatli...");
+          toast.success("Successfully updated.");
         } else {
-          message.error("Xatolik yuz berdi");
+          toast.error("Error occurred.");
         }
       })
       .catch(error => {
         console.log(error);
-        message.error("Xatolik yuz berdi");
+        toast.error("Error occurred.");
       });
   };
 
@@ -91,7 +91,7 @@ export const Home = () => {
           const newCategory = category.filter((item) => item.id !== id);
           setCategory(newCategory);
           setOpen(false);
-          toast.success("Muvaffaqiyatli o'chirildi");
+          toast.success("muvofaqiyatli o'chirildi");
         } else {
           toast.error("Xatolik yuz berdi");
           setOpen(false);
@@ -122,14 +122,14 @@ export const Home = () => {
         if (res.success) {
           handleClose();
           getCategory();
-          message.success("Muvafaqiyatli qo'shildi...");
+          toast.success("muvofaqiyatli qo'shildi..");
         } else {
-          message.error("Xatolik yuz berdi");
+          toast.error("Xatolik yuz berdi....");
         }
       })
       .catch(error => {
         console.log(error);
-        message.error("Xatolik yuz berdi");
+        toast.error("Xatolik yuz berdi....");
       });
   };
 
@@ -148,7 +148,8 @@ export const Home = () => {
 
   return (
     <div className='container1'>
-      <Button type="primary" className='add-button' onClick={handleAddClick}>ADD CATEGORY</Button>
+      <ToastContainer />
+      <Button type="primary" className='add-button' onClick={handleAddClick} icon={<PlusOutlined />}>ADD CATEGORY</Button>
 
       <table>
         <thead>
@@ -187,9 +188,9 @@ export const Home = () => {
       </div>
 
       <Modal footer={null} title="Delete" open={open} onCancel={handleClose}>
-        <p>Are you sure you want to delete?</p>
-        <Button onClick={handleClose} className='close-button'>Cancel</Button>
-        <Button onClick={deleteCategory} className='delete-button'>Delete</Button>
+        <p>Siz rostan ham o'chirmoqchimisz?</p>
+        <Button onClick={handleClose} className='close-button'>Bekor qilish</Button>
+        <Button onClick={deleteCategory} className='delete-button'>Ha</Button>
       </Modal>
 
       <Modal footer={null} title="Add Category" open={open1} onCancel={handleClose}>
