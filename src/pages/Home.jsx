@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
-import { Button, Modal, message } from 'antd';
+import { Button, Modal, message, Pagination } from 'antd'; // Pagination ni import qilamiz
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,6 +10,8 @@ export const Home = () => {
   const [open1, setOpen1] = useState(false);
   const [id, setId] = useState(null);
   const [data, setData] = useState({ name_en: "", name_ru: "", images: null });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTczNzkzNTUtZDNjYi00NzY1LTgwMGEtNDZhOTU1NWJiOWQyIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNzkyMjA5OSwiZXhwIjoxNzQ5NDU4MDk5fQ.JmBj6V8Q7M_qY-n1Afv9QFv0wIRW2sPUtHg0rto80FU';
   const urlImg = "https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/";
@@ -135,9 +137,19 @@ export const Home = () => {
     setData({ name_en: "", name_ru: "", images: null });
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = category.slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(category.length / itemsPerPage);
+
   return (
     <div className='container1'>
-      <button type="primary" className='add-button' onClick={handleAddClick}>ADD CATEGORY</button>
+      <Button type="primary" className='add-button' onClick={handleAddClick}>ADD CATEGORY</Button>
 
       <table>
         <thead>
@@ -149,7 +161,7 @@ export const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {category && category.map((item, index) => (
+          {currentItems.map((item, index) => (
             <tr key={index}>
               <td>{item.name_en}</td>
               <td>{item.name_ru}</td>
@@ -157,21 +169,30 @@ export const Home = () => {
                 <img src={`${urlImg}${item.image_src}`} alt={item.name_en} />
               </td>
               <td>
-                <button onClick={() => handleEdit(item)} className='edit-button'>Edit</button>
-                <button onClick={() => handleOk(item.id)} className='delete-button'>Delete</button>
+                <Button onClick={() => handleEdit(item)} className='edit-button'>Edit</Button>
+                <Button onClick={() => handleOk(item.id)} className='delete-button'>Delete</Button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
+      <div className="pagination">
+        <Pagination
+          current={currentPage}
+          onChange={handlePageChange}
+          total={category.length}
+          pageSize={itemsPerPage}
+          showSizeChanger={false}
+        />
+      </div>
+
       <Modal footer={null} title="Delete" open={open} onCancel={handleClose}>
-        <p>Ochirishni xohlaysizmi?</p>
+      <p>Ochirishni xohlaysizmi?</p>
         <button onClick={handleClose} className='close-button'>Bekor qilish</button>
         <button onClick={deleteCategory} className='delete-button'>O'chirish</button>
       </Modal>
       <Modal footer={null} title="Add Category" open={open1} onCancel={handleClose}>
-
         <form onSubmit={addCategory}>
           <input onChange={(e) => setData({ ...data, name_en: e.target.value })} value={data.name_en} type="text" placeholder='name en' required />
           <input onChange={(e) => setData({ ...data, name_ru: e.target.value })} value={data.name_ru} type="text" placeholder='name ru' required />
@@ -184,4 +205,3 @@ export const Home = () => {
 };
 
 export default Home;
-
