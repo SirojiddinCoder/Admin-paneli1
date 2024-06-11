@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import { Button, Modal, Pagination } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -14,6 +15,7 @@ export const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
+  const navigate = useNavigate();
   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTczNzkzNTUtZDNjYi00NzY1LTgwMGEtNDZhOTU1NWJiOWQyIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNzkyMjA5OSwiZXhwIjoxNzQ5NDU4MDk5fQ.JmBj6V8Q7M_qY-n1Afv9QFv0wIRW2sPUtHg0rto80FU';
   const urlImg = "https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/";
 
@@ -142,6 +144,13 @@ export const Home = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleLogout = () => {
+  
+    localStorage.removeItem('accessToken');
+
+    navigate('/');
+  };
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentItems = category.slice(startIndex, endIndex);
@@ -150,6 +159,7 @@ export const Home = () => {
     <div className='container1'>
       <ToastContainer />
       <Button type="primary" className='add-button' onClick={handleAddClick} icon={<PlusOutlined />}>ADD CATEGORY</Button>
+      <Button type="primary" className='logout-button' onClick={handleLogout}>LOG OUT</Button>
 
       <table>
         <thead>
